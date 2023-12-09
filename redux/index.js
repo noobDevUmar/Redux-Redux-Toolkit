@@ -1,20 +1,39 @@
 import {createStore,applyMiddleware} from 'redux'
 import logger from 'redux-logger'
-// Store
 
+
+// constants // for simplifying code and less error chances 
+
+const inc = 'increment'
+const dec = 'decrement'
+const incByAmount = 'increaseByAmount'
+
+
+
+// Store
 const store = createStore(reducer,applyMiddleware(logger.default))
 
 
-// Reducer function takes state and retursn new state,  here we have give an initial value of amount for practice..
+// action Creators
+function increment(){
+    return {type:inc}
+}
+function decrement(){
+    return {type:dec}
+}
+function increaseByAmount(value){
+    return {type:incByAmount,payload:value}
+}
 
+// Reducer function takes state and retursn new state,  here we have give an initial value of amount for practice..
 function reducer(state={amount:1},action){
-    if(action.type=== 'increment'){
+    if(action.type=== inc){
         return {amount:state.amount+1}
     }
-    if(action.type=== 'decrement'){
+    if(action.type=== dec){
         return {amount:state.amount-1}
     }
-    if(action.type=== 'incrementByAmount'){
+    if(action.type=== incByAmount){
         return {amount:state.amount+ action.payload}
     }
     return state
@@ -30,5 +49,5 @@ function reducer(state={amount:1},action){
 
 
 setInterval(()=>{
-    store.dispatch({type:'incrementByAmount',payload:4})
+    store.dispatch(increaseByAmount(5))
 },2000)
